@@ -9,6 +9,7 @@
   justify-content: space-between;
 
   border-top: 1px solid #eaeaea;
+  margin-top: auto; /* 👈 THIS pushes footer to bottom */
 }
 
 .social {
