@@ -13,7 +13,16 @@ async function getData(id) {
 
   return res.json();
 }
-
+export async function generateStaticParams() {
+  const res = await fetch("http://localhost:3000/api/posts", {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    return notFound();
+  }
+  const data = await res.json();
+  return data.map((post) => ({ id: post.id }));
+}
 export async function generateMetadata({ params }) {
   const { id } = await params;
   const data = await getData(id);
