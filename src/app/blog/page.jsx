@@ -4,7 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 
 async function getData() {
-  const res = await fetch("/api/posts", {
+  const res = await fetch("http://localhost:3000/api/posts", {
+    method: "GET",
     cache: "no-store",
   });
   if (!res.ok) {
@@ -13,8 +14,6 @@ async function getData() {
 
   return res.json();
 }
-
-
 
 const Blog = async () => {
   const data = await getData();
