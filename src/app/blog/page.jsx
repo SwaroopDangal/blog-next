@@ -3,24 +3,38 @@ import styles from "./page.module.css";
 import Link from "next/link";
 import Image from "next/image";
 
+async function getData() {
+  const res = await fetch("/api/posts", {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json();
+}
+
 const Blog = async () => {
+  const data = await getData();
   return (
     <div className={styles.mainContainer}>
-      <Link href="/blog/testId" className={styles.container}>
-        <div className={styles.imageContainer}>
-          <Image
-            src="https://images.pexels.com/photos/9558710/pexels-photo-9558710.jpeg"
-            alt=""
-            width={400}
-            height={250}
-            className={styles.image}
-          />
-        </div>
-        <div className={styles.content}>
-          <h1 className={styles.title}>test</h1>
-          <p className={styles.desc}>desc</p>
-        </div>
-      </Link>
+      {data.map((item) => (
+        <Link href={`/blog/${item._id}`} key={item._id}>
+          <div className={styles.imageContainer}>
+            <Image
+              src={item.img}
+              alt=""
+              width={400}
+              height={250}
+              className={styles.image}
+            />
+          </div>
+          <div className={styles.content}>
+            <h1 className={styles.title}>{item.title}</h1>
+            <p className={styles.desc}>{item.desc}</p>
+          </div>
+        </Link>
+      ))}
     </div>
   );
 };
